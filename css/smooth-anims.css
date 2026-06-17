@@ -1,0 +1,190 @@
+/**
+ * Smooth Anims — CSS foundation
+ * @see AGENTS.md  Presets, attributes, and integration guide for AI agents
+ */
+
+:root {
+  --sa-duration: 600ms;
+  --sa-delay: 0ms;
+  --sa-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --sa-distance: 2rem;
+  --sa-scale-from: 0.92;
+  --sa-blur-from: 8px;
+  --sa-stagger: 80ms;
+}
+
+/* ── Base state (hidden until revealed) ─────────────────────────────── */
+
+[data-animate] {
+  opacity: 0;
+  will-change: opacity, transform, filter;
+  transition:
+    opacity var(--sa-duration) var(--sa-ease) var(--sa-delay),
+    transform var(--sa-duration) var(--sa-ease) var(--sa-delay),
+    filter var(--sa-duration) var(--sa-ease) var(--sa-delay);
+}
+
+[data-animate].sa-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* ── Presets ──────────────────────────────────────────────────────── */
+
+[data-animate="fade"] {
+  /* opacity only */
+}
+
+[data-animate="fade-up"] {
+  transform: translateY(var(--sa-distance));
+}
+
+[data-animate="fade-down"] {
+  transform: translateY(calc(var(--sa-distance) * -1));
+}
+
+[data-animate="fade-left"] {
+  transform: translateX(var(--sa-distance));
+}
+
+[data-animate="fade-right"] {
+  transform: translateX(calc(var(--sa-distance) * -1));
+}
+
+[data-animate="scale"] {
+  transform: scale(var(--sa-scale-from));
+}
+
+[data-animate="scale-up"] {
+  transform: scale(var(--sa-scale-from)) translateY(var(--sa-distance));
+}
+
+[data-animate="blur"] {
+  filter: blur(var(--sa-blur-from));
+}
+
+[data-animate="blur-up"] {
+  transform: translateY(var(--sa-distance));
+  filter: blur(var(--sa-blur-from));
+}
+
+[data-animate="rotate"] {
+  transform: rotate(-6deg) scale(var(--sa-scale-from));
+  transform-origin: center bottom;
+}
+
+[data-animate="clip-up"] {
+  clip-path: inset(100% 0 0 0);
+  opacity: 1;
+  transition:
+    clip-path var(--sa-duration) var(--sa-ease) var(--sa-delay),
+    transform var(--sa-duration) var(--sa-ease) var(--sa-delay);
+}
+
+[data-animate="clip-up"].sa-visible {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ── Per-element timing overrides ───────────────────────────────────── */
+
+[data-animate-duration] {
+  --sa-duration: attr(data-animate-duration ms, 600ms);
+}
+
+[data-animate-delay] {
+  --sa-delay: attr(data-animate-delay ms, 0ms);
+}
+
+/* Inline style overrides via JS are preferred; these work as fallbacks */
+[data-animate-duration="300"] { --sa-duration: 300ms; }
+[data-animate-duration="400"] { --sa-duration: 400ms; }
+[data-animate-duration="500"] { --sa-duration: 500ms; }
+[data-animate-duration="600"] { --sa-duration: 600ms; }
+[data-animate-duration="800"] { --sa-duration: 800ms; }
+[data-animate-duration="1000"] { --sa-duration: 1000ms; }
+[data-animate-duration="1200"] { --sa-duration: 1200ms; }
+
+[data-animate-ease="linear"]       { --sa-ease: linear; }
+[data-animate-ease="ease-out"]      { --sa-ease: ease-out; }
+[data-animate-ease="ease-in-out"]   { --sa-ease: ease-in-out; }
+[data-animate-ease="spring"]        { --sa-ease: cubic-bezier(0.34, 1.56, 0.64, 1); }
+[data-animate-ease="smooth"]        { --sa-ease: cubic-bezier(0.22, 1, 0.36, 1); }
+[data-animate-ease="snappy"]        { --sa-ease: cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* ── Stagger container ────────────────────────────────────────────── */
+
+[data-animate-stagger] > * {
+  opacity: 0;
+  will-change: opacity, transform, filter;
+  transition:
+    opacity var(--sa-duration) var(--sa-ease),
+    transform var(--sa-duration) var(--sa-ease),
+    filter var(--sa-duration) var(--sa-ease);
+}
+
+[data-animate-stagger] > *.sa-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Child inherits parent's animation type via data-animate on container */
+[data-animate-stagger="fade-up"] > *       { transform: translateY(var(--sa-distance)); }
+[data-animate-stagger="fade-down"] > *     { transform: translateY(calc(var(--sa-distance) * -1)); }
+[data-animate-stagger="fade-left"] > *     { transform: translateX(var(--sa-distance)); }
+[data-animate-stagger="fade-right"] > *    { transform: translateX(calc(var(--sa-distance) * -1)); }
+[data-animate-stagger="scale"] > *         { transform: scale(var(--sa-scale-from)); }
+[data-animate-stagger="fade"] > *          { /* opacity only */ }
+
+/* ── Hover micro-interactions ─────────────────────────────────────── */
+
+[data-hover="lift"] {
+  transition: transform 300ms var(--sa-ease), box-shadow 300ms var(--sa-ease);
+}
+
+[data-hover="lift"]:hover {
+  transform: translateY(-4px);
+}
+
+[data-hover="scale"] {
+  transition: transform 300ms var(--sa-ease);
+}
+
+[data-hover="scale"]:hover {
+  transform: scale(1.03);
+}
+
+[data-hover="glow"] {
+  transition: box-shadow 300ms var(--sa-ease);
+}
+
+[data-hover="glow"]:hover {
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.25);
+}
+
+/* ── Parallax helper ──────────────────────────────────────────────── */
+
+[data-parallax] {
+  will-change: transform;
+  transition: none;
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate],
+  [data-animate-stagger] > *,
+  [data-hover] {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
+  [data-animate],
+  [data-animate-stagger] > * {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    clip-path: none;
+  }
+}

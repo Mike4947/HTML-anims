@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smooth Anims — Demo</title>
+  <link rel="stylesheet" href="css/smooth-anims.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: #1e1e2a;
+      --text: #e8e8ed;
+      --muted: #8888a0;
+      --accent: #6366f1;
+      --accent-soft: rgba(99, 102, 241, 0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 0%, var(--accent-soft), transparent);
+      pointer-events: none;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 32rem;
+      margin-top: 1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+
+    section {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    section h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    section > p.desc {
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .card p {
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .card code {
+      display: inline-block;
+      font-size: 0.75rem;
+      background: var(--bg);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      margin-top: 0.75rem;
+      color: var(--accent);
+    }
+
+    .stagger-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .stagger-list li {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      font-size: 0.95rem;
+    }
+
+    .stagger-list li span {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-left: 0.5rem;
+    }
+
+    .code-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      overflow-x: auto;
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .code-block .kw { color: #c084fc; }
+    .code-block .attr { color: #67e8f9; }
+    .code-block .val { color: #86efac; }
+
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <header class="hero">
+    <span class="badge" data-animate="fade" data-animate-delay="0">Animation Framework</span>
+    <h1 data-animate="fade-up" data-animate-delay="100">Smooth Anims</h1>
+    <p data-animate="fade-up" data-animate-delay="200">
+      Declarative scroll animations for any website. Zero dependencies, ~3 KB gzipped.
+    </p>
+  </header>
+
+  <!-- Presets -->
+  <section>
+    <h2 data-animate="fade-up">Animation Presets</h2>
+    <p class="desc" data-animate="fade-up" data-animate-delay="80">
+      Add <code style="color:var(--accent)">data-animate</code> to any element. It reveals on scroll.
+    </p>
+
+    <div class="grid">
+      <div class="card" data-animate="fade" data-animate-delay="0">
+        <h3>Fade</h3>
+        <p>Simple opacity transition.</p>
+        <code>data-animate="fade"</code>
+      </div>
+      <div class="card" data-animate="fade-up" data-animate-delay="80">
+        <h3>Fade Up</h3>
+        <p>Rises into view from below.</p>
+        <code>data-animate="fade-up"</code>
+      </div>
+      <div class="card" data-animate="fade-down" data-animate-delay="160">
+        <h3>Fade Down</h3>
+        <p>Drops in from above.</p>
+        <code>data-animate="fade-down"</code>
+      </div>
+      <div class="card" data-animate="fade-left" data-animate-delay="240">
+        <h3>Fade Left</h3>
+        <p>Slides in from the right.</p>
+        <code>data-animate="fade-left"</code>
+      </div>
+      <div class="card" data-animate="scale" data-animate-delay="0">
+        <h3>Scale</h3>
+        <p>Grows from 92% to full size.</p>
+        <code>data-animate="scale"</code>
+      </div>
+      <div class="card" data-animate="blur-up" data-animate-delay="80">
+        <h3>Blur Up</h3>
+        <p>De-blurs while rising.</p>
+        <code>data-animate="blur-up"</code>
+      </div>
+      <div class="card" data-animate="rotate" data-animate-delay="160">
+        <h3>Rotate</h3>
+        <p>Subtle rotation + scale.</p>
+        <code>data-animate="rotate"</code>
+      </div>
+      <div class="card" data-hover="lift" data-animate="fade-up" data-animate-delay="240">
+        <h3>Hover Lift</h3>
+        <p>Micro-interaction on hover.</p>
+        <code>data-hover="lift"</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stagger -->
+  <section>
+    <h2 data-animate="fade-up">Staggered Lists</h2>
+    <p class="desc" data-animate="fade-up" data-animate-delay="80">
+      Animate children sequentially with <code style="color:var(--accent)">data-animate-stagger</code>.
+    </p>
+
+    <ul class="stagger-list" data-animate-stagger="fade-up" data-animate-stagger-delay="100">
+      <li>First item <span>— 0 ms delay</span></li>
+      <li>Second item <span>— 100 ms delay</span></li>
+      <li>Third item <span>— 200 ms delay</span></li>
+      <li>Fourth item <span>— 300 ms delay</span></li>
+      <li>Fifth item <span>— 400 ms delay</span></li>
+    </ul>
+  </section>
+
+  <!-- Timing -->
+  <section>
+    <h2 data-animate="fade-up">Timing &amp; Easing</h2>
+    <p class="desc" data-animate="fade-up" data-animate-delay="80">
+      Control duration, delay, and easing per element.
+    </p>
+
+    <div class="grid">
+      <div class="card" data-animate="fade-up" data-animate-duration="300" data-animate-ease="snappy">
+        <h3>Snappy · 300 ms</h3>
+        <p>Quick and responsive.</p>
+      </div>
+      <div class="card" data-animate="fade-up" data-animate-duration="800" data-animate-ease="smooth">
+        <h3>Smooth · 800 ms</h3>
+        <p>Default feel — gentle deceleration.</p>
+      </div>
+      <div class="card" data-animate="scale" data-animate-duration="600" data-animate-ease="spring">
+        <h3>Spring · 600 ms</h3>
+        <p>Slight overshoot for playfulness.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Usage -->
+  <section>
+    <h2 data-animate="fade-up">Quick Start</h2>
+    <p class="desc" data-animate="fade-up" data-animate-delay="80">
+      Drop two files into your project and add data attributes.
+    </p>
+
+    <pre class="code-block" data-animate="fade-up" data-animate-delay="160"><span class="kw">&lt;link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"css/smooth-anims.css"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;script</span> <span class="attr">src</span>=<span class="val">"js/smooth-anims.js"</span><span class="kw">&gt;&lt;/script&gt;</span>
+
+<span class="kw">&lt;div</span> <span class="attr">data-animate</span>=<span class="val">"fade-up"</span><span class="kw">&gt;</span>Hello world<span class="kw">&lt;/div&gt;</span>
+
+<span class="kw">&lt;ul</span> <span class="attr">data-animate-stagger</span>=<span class="val">"fade-up"</span>
+    <span class="attr">data-animate-stagger-delay</span>=<span class="val">"80"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;li&gt;</span>One<span class="kw">&lt;/li&gt;</span>
+  <span class="kw">&lt;li&gt;</span>Two<span class="kw">&lt;/li&gt;</span>
+<span class="kw">&lt;/ul&gt;</span>
+
+<span class="kw">&lt;script&gt;</span>
+  SmoothAnims.init(); <span style="color:#555">// call once on page load</span>
+<span class="kw">&lt;/script&gt;</span></pre>
+  </section>
+
+  <footer data-animate="fade">
+    Smooth Anims — see <a href="PROMPT.md" style="color:var(--accent)">PROMPT.md</a> for the AI prompt template · <a href="demo.html" style="color:var(--accent)">UI cursor demo</a>
+  </footer>
+
+  <script src="js/smooth-anims.js"></script>
+  <script>SmoothAnims.init();</script>
+</body>
+</html>

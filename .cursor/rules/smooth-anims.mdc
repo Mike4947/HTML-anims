@@ -1,0 +1,14 @@
+---
+description: Smooth Anims framework — use data-animate attributes and AGENTS.md when adding animations
+alwaysApply: false
+globs: "**/*.{html,htm,jsx,tsx,vue,svelte,astro}"
+---
+
+# Smooth Anims
+
+When adding scroll-reveal or entrance animations, read `AGENTS.md` and `smooth-anims.schema.json` in this repo.
+
+- Prefer `data-animate` / `data-animate-stagger` over custom CSS animations or new libraries
+- Call `SmoothAnims.init()` once; `SmoothAnims.refresh()` after dynamic DOM changes
+- Do not modify `css/smooth-anims.css` or `js/smooth-anims.js` for one-off effects
+- Copy-paste prompt template: `PROMPT.md`

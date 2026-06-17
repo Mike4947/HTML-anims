@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flowboard — UI Animation Demo</title>
+  <link rel="stylesheet" href="css/demo-app.css">
+</head>
+<body>
+
+  <div class="demo-page">
+    <header class="demo-header">
+      <div class="demo-badge">Live demo</div>
+      <h1>Watch the app in action</h1>
+      <p>An animated cursor navigates the menu, creates tasks, and changes settings — just like a real user.</p>
+    </header>
+
+    <div class="app-window" id="app-window">
+
+      <!-- Animated cursor -->
+      <div class="demo-cursor">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87a.5.5 0 0 0 .35-.85L6.35 2.86a.5.5 0 0 0-.85.35Z" fill="#fff" stroke="#1a1a26" stroke-width="1.2"/>
+        </svg>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="app-sidebar">
+        <div class="app-logo">
+          <div class="app-logo-icon">F</div>
+          Flowboard
+        </div>
+
+        <nav class="app-nav">
+          <button class="nav-item active" data-panel="dashboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Dashboard
+          </button>
+          <button class="nav-item" data-panel="tasks">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            My Tasks
+            <span class="nav-badge" id="nav-badge-tasks">3</span>
+          </button>
+          <button class="nav-item" data-panel="team">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Team
+          </button>
+          <button class="nav-item" data-panel="settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            Settings
+          </button>
+        </nav>
+
+        <div class="app-sidebar-footer">
+          <button class="nav-item" data-panel="settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+            Account
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <div class="app-main">
+        <header class="app-topbar">
+          <span class="topbar-title" id="topbar-title">Dashboard</span>
+          <div class="topbar-spacer"></div>
+          <button class="topbar-btn primary" id="btn-new-task">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            New Task
+          </button>
+        </header>
+
+        <div class="app-content">
+
+          <!-- Dashboard -->
+          <div class="panel active" id="panel-dashboard">
+            <div class="stats-row">
+              <div class="stat-card">
+                <div class="label">Open Tasks</div>
+                <div class="value" id="stat-tasks">3</div>
+              </div>
+              <div class="stat-card">
+                <div class="label">Team Members</div>
+                <div class="value">4</div>
+              </div>
+              <div class="stat-card">
+                <div class="label">Completed</div>
+                <div class="value">12</div>
+              </div>
+            </div>
+
+            <div class="recent-title">Recent Activity</div>
+            <div class="activity-item visible">
+              <div class="activity-dot"></div>
+              <span>Sarah updated the design system</span>
+            </div>
+            <div class="activity-item visible">
+              <div class="activity-dot" style="background:#34d399"></div>
+              <span>Marc completed "API integration"</span>
+            </div>
+            <div class="activity-item" id="activity-new">
+              <div class="activity-dot" style="background:#fbbf24"></div>
+              <span>New task added to backlog</span>
+            </div>
+          </div>
+
+          <!-- Tasks -->
+          <div class="panel" id="panel-tasks">
+            <div class="task-list" id="task-list">
+              <div class="task-item visible">
+                <div class="task-check"></div>
+                <span class="task-label">Review pull request #42</span>
+                <span class="task-priority">High</span>
+              </div>
+              <div class="task-item visible">
+                <div class="task-check checked"></div>
+                <span class="task-label">Update documentation</span>
+                <span class="task-priority" style="background:rgba(52,211,153,0.12);color:#34d399">Done</span>
+              </div>
+              <div class="task-item visible">
+                <div class="task-check"></div>
+                <span class="task-label">Fix mobile layout bug</span>
+                <span class="task-priority">Medium</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team -->
+          <div class="panel" id="panel-team">
+            <div class="team-grid">
+              <div class="member-card">
+                <div class="member-avatar" style="background:#6366f1">SL</div>
+                <div class="member-info">
+                  <div class="name">Sarah Lee</div>
+                  <div class="role">Design Lead</div>
+                </div>
+              </div>
+              <div class="member-card">
+                <div class="member-avatar" style="background:#34d399">MK</div>
+                <div class="member-info">
+                  <div class="name">Marc Klein</div>
+                  <div class="role">Backend Engineer</div>
+                </div>
+              </div>
+              <div class="member-card">
+                <div class="member-avatar" style="background:#f472b6">AJ</div>
+                <div class="member-info">
+                  <div class="name">Alex Jordan</div>
+                  <div class="role">Product Manager</div>
+                </div>
+              </div>
+              <div class="member-card">
+                <div class="member-avatar" style="background:#fbbf24">RP</div>
+                <div class="member-info">
+                  <div class="name">Riya Patel</div>
+                  <div class="role">Frontend Engineer</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Settings -->
+          <div class="panel" id="panel-settings">
+            <div class="settings-group">
+              <h3>Notifications</h3>
+              <div class="setting-row">
+                <span>Push notifications</span>
+                <button class="toggle" id="toggle-notifications" aria-label="Toggle notifications"></button>
+              </div>
+              <div class="setting-row">
+                <span>Email digest</span>
+                <button class="toggle on" aria-label="Toggle email digest"></button>
+              </div>
+            </div>
+            <div class="settings-group">
+              <h3>Appearance</h3>
+              <div class="setting-row">
+                <span>Dark mode</span>
+                <button class="toggle on" id="toggle-darkmode" aria-label="Toggle dark mode"></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal -->
+          <div class="modal-backdrop" id="modal-backdrop"></div>
+          <div class="modal" id="task-modal">
+            <h3>Create new task</h3>
+            <input type="text" id="task-input" placeholder="Task name…" autocomplete="off">
+            <div class="modal-actions">
+              <button class="modal-btn" id="btn-cancel">Cancel</button>
+              <button class="modal-btn primary" id="btn-save">Save Task</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/demo-cursor.js"></script>
+  <script src="js/demo-app.js"></script>
+</body>
+</html>

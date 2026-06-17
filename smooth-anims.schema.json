@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "smooth-anims",
+  "version": "1.0.0",
+  "description": "Declarative scroll-reveal animation framework. AI agents: read AGENTS.md first.",
+  "files": {
+    "required": ["css/smooth-anims.css", "js/smooth-anims.js"],
+    "reference": "AGENTS.md",
+    "promptTemplate": "PROMPT.md",
+    "examples": {
+      "scrollReveal": "index.html",
+      "uiCursorDemo": "demo.html"
+    },
+    "optionalDemo": ["css/demo-app.css", "js/demo-cursor.js", "js/demo-app.js"]
+  },
+  "setup": {
+    "html": [
+      "<link rel=\"stylesheet\" href=\"PATH/TO/css/smooth-anims.css\">",
+      "<script src=\"PATH/TO/js/smooth-anims.js\"></script>",
+      "<script>SmoothAnims.init();</script>"
+    ],
+    "notes": [
+      "Adjust PATH/TO to where you copied the framework in the user's project.",
+      "Call SmoothAnims.init() once after DOM is ready.",
+      "Call SmoothAnims.refresh() after dynamic content (SPA routes, fetch, innerHTML)."
+    ]
+  },
+  "presets": [
+    "fade",
+    "fade-up",
+    "fade-down",
+    "fade-left",
+    "fade-right",
+    "scale",
+    "scale-up",
+    "blur",
+    "blur-up",
+    "rotate",
+    "clip-up"
+  ],
+  "easings": ["linear", "ease-out", "ease-in-out", "spring", "smooth", "snappy"],
+  "hoverPresets": ["lift", "scale", "glow"],
+  "attributes": {
+    "data-animate": {
+      "required": false,
+      "type": "enum",
+      "values": "presets",
+      "description": "Scroll-reveal preset on element. Adds .sa-visible when in viewport."
+    },
+    "data-animate-stagger": {
+      "required": false,
+      "type": "enum",
+      "values": ["fade", "fade-up", "fade-down", "fade-left", "fade-right", "scale"],
+      "description": "Apply preset to each direct child with sequential delay."
+    },
+    "data-animate-stagger-delay": {
+      "type": "number",
+      "default": 80,
+      "unit": "ms",
+      "description": "Delay between staggered children."
+    },
+    "data-animate-duration": {
+      "type": "number",
+      "default": 600,
+      "unit": "ms"
+    },
+    "data-animate-delay": {
+      "type": "number",
+      "default": 0,
+      "unit": "ms",
+      "description": "Per-element delay before animation starts."
+    },
+    "data-animate-ease": {
+      "type": "enum",
+      "values": "easings"
+    },
+    "data-animate-instant": {
+      "type": "boolean",
+      "values": ["true"],
+      "description": "Reveal immediately without waiting for scroll."
+    },
+    "data-animate-repeat": {
+      "type": "boolean",
+      "values": ["true"],
+      "description": "Re-hide when leaving viewport and re-animate on re-enter."
+    },
+    "data-hover": {
+      "type": "enum",
+      "values": "hoverPresets",
+      "description": "CSS-only hover micro-interaction."
+    },
+    "data-parallax": {
+      "type": "number",
+      "default": 0.35,
+      "description": "Scroll parallax speed multiplier."
+    }
+  },
+  "cssVariables": {
+    "--sa-duration": "600ms",
+    "--sa-delay": "0ms",
+    "--sa-ease": "cubic-bezier(0.22, 1, 0.36, 1)",
+    "--sa-distance": "2rem",
+    "--sa-scale-from": "0.92",
+    "--sa-blur-from": "8px",
+    "--sa-stagger": "80ms"
+  },
+  "api": {
+    "SmoothAnims.init": {
+      "args": {
+        "threshold": { "default": 0.15, "description": "IntersectionObserver threshold" },
+        "rootMargin": { "default": "0px 0px -8% 0px" },
+        "once": { "default": true },
+        "staggerDelay": { "default": 80 },
+        "parallaxSpeed": { "default": 0.35 }
+      }
+    },
+    "SmoothAnims.refresh": {
+      "args": { "root": "optional Element — scope for re-scan" },
+      "when": "After DOM injection, SPA navigation, or modal open"
+    },
+    "SmoothAnims.animate": {
+      "args": {
+        "el": "Element | selector string",
+        "options": {
+          "preset": "fade-up",
+          "duration": 600,
+          "delay": 0,
+          "ease": "smooth",
+          "reverse": false
+        }
+      },
+      "returns": "Promise<Element>"
+    },
+    "SmoothAnims.stagger": {
+      "args": {
+        "container": "Element | selector",
+        "options": { "preset": "fade-up", "delay": 80, "duration": 600, "ease": "smooth" }
+      }
+    },
+    "SmoothAnims.reveal": { "args": { "el": "Element" } },
+    "SmoothAnims.hide": { "args": { "el": "Element" } },
+    "SmoothAnims.destroy": { "description": "Disconnect observers and listeners" }
+  },
+  "events": ["sa:revealed", "sa:hidden", "sa:stagger-revealed"],
+  "recipes": {
+    "landingHero": {
+      "pattern": "Sequential fade-up on headline, subtext, CTA with delays 0/100/200/300",
+      "example": "<h1 data-animate=\"fade-up\" data-animate-delay=\"0\">…</h1>"
+    },
+    "featureGrid": {
+      "pattern": "Stagger container over card children",
+      "example": "<div data-animate-stagger=\"fade-up\" data-animate-stagger-delay=\"80\">…cards…</div>"
+    },
+    "pricingCards": {
+      "pattern": "scale preset + spring ease + stagger 100ms"
+    },
+    "testimonials": {
+      "pattern": "fade-left on alternating items or stagger fade-up"
+    },
+    "navbar": {
+      "pattern": "data-animate-instant=\"true\" data-animate=\"fade-down\" on load"
+    }
+  }
+}
